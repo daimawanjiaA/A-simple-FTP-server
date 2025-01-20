@@ -11,7 +11,7 @@
 #include <dirent.h>
 #include <time.h>
 
-#define PORT 22011           // 端口号
+
 #define MAX_CONNECTIONS 10    // 最大连接队列连接长度
 #define BUFFER_SIZE 1024      // 大缓冲区容量（文件内容）
 #define SMALL_BUFFER_SIZE 50  // 小缓冲区容量（文件名）
@@ -25,6 +25,8 @@
 // 缓冲区大小
 #define BUFFER_SIZE 1024
 
+// 端口号
+extern int PORT;           
 // 套接字
 extern int server_sock, client_sock;
 extern int client_sockets[100]; // 假设最多支持 100 个客户端连接

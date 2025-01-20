@@ -17,8 +17,8 @@ if ! command -v tmux &> /dev/null; then
 fi
 
 # 定义 Client 和 Server 文件夹路径
-Client_FOLDER="./Client"
-Server_FOLDER="./Server"
+Client_FOLDER="./Client_folder"
+Server_FOLDER="./Server_folder"
 
 # 编译项目
 echo "开始编译项目..."
@@ -63,43 +63,45 @@ fi
 SESSION_NAME="ftp_session"
 tmux new-session -d -s $SESSION_NAME
 
-# 在第一个窗口运行 server
-if [ -f "./server" ]; then
-    echo "正在运行 FTP 服务器..."
-    tmux rename-window -t $SESSION_NAME:0 'server'
-    tmux send-keys -t $SESSION_NAME:0 './server' C-m
-else
-    echo "可执行文件 ./server 未生成，编译失败"
-    exit 1
-fi
 
-# 在第二个窗口运行 client1
+
+# 在第一个窗口运行 client1
 if [ -f "./client" ]; then
     echo "正在运行 FTP 客户端 1..."
     tmux new-window -t $SESSION_NAME -n 'client1'
+    tmux send-keys -t $SESSION_NAME:0 './client' C-m
+else
+    echo "可执行文件 ./client 未生成，编译失败"
+    exit 1
+fi
+
+# 在第二个窗口运行 client2
+if [ -f "./client" ]; then
+    echo "正在运行 FTP 客户端 2..."
+    tmux new-window -t $SESSION_NAME -n 'client2'
     tmux send-keys -t $SESSION_NAME:1 './client' C-m
 else
     echo "可执行文件 ./client 未生成，编译失败"
     exit 1
 fi
 
-# 在第三个窗口运行 client2
+# 在第三个窗口运行 client3
 if [ -f "./client" ]; then
-    echo "正在运行 FTP 客户端 2..."
-    tmux new-window -t $SESSION_NAME -n 'client2'
+    echo "正在运行 FTP 客户端 3..."
+    tmux new-window -t $SESSION_NAME -n 'client3'
     tmux send-keys -t $SESSION_NAME:2 './client' C-m
 else
     echo "可执行文件 ./client 未生成，编译失败"
     exit 1
 fi
 
-# 在第四个窗口运行 client3
-if [ -f "./client" ]; then
-    echo "正在运行 FTP 客户端 3..."
-    tmux new-window -t $SESSION_NAME -n 'client3'
-    tmux send-keys -t $SESSION_NAME:3 './client' C-m
+# 在第四个窗口运行 server
+if [ -f "./server" ]; then
+    echo "正在运行 FTP 服务器..."
+    tmux rename-window -t $SESSION_NAME:3 'server'
+    tmux send-keys -t $SESSION_NAME:3 './server' C-m
 else
-    echo "可执行文件 ./client 未生成，编译失败"
+    echo "可执行文件 ./server 未生成，编译失败"
     exit 1
 fi
 

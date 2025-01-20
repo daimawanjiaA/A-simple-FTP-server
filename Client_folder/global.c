@@ -12,5 +12,5 @@ const char DEFAULT[] = "DEFAULT";
 
 const int fileInfo_size = 96;
 const int maxSizeInBuff = 9;
-
+int SERVER_PORT; // 端口号
 int sock;

@@ -6,7 +6,7 @@
 
 int main()
 {
-    
+
     struct sockaddr_in server_addr, client_addr;
     socklen_t client_len = sizeof(client_addr);
     pthread_t thread_id;
@@ -15,7 +15,7 @@ int main()
 
     // 注册 SIGINT 信号处理器
     signal(SIGINT, handle_sigint);
-    
+
     // 创建套接字
     server_sock = socket(AF_INET, SOCK_STREAM, 0);
     if (server_sock < 0)
@@ -23,24 +23,31 @@ int main()
         perror("Failed to create socket");
         exit(1);
     }
-
-    // 绑定端口
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(PORT);
-
-    if (bind(server_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+    while (1)
     {
-        perror("Bind failed");
-        exit(1);
-    }
+        printf("Please enter the listening port: ");
+        scanf("%d", &PORT);
+        // 绑定端口
+        memset(&server_addr, 0, sizeof(server_addr));
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_addr.s_addr = INADDR_ANY;
+        server_addr.sin_port = htons(PORT);
 
-    // 监听
-    if (listen(server_sock, MAX_CONNECTIONS) < 0)
-    {
-        perror("Listen failed");
-        exit(1);
+        if (bind(server_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+        {
+            perror("Bind failed");
+            continue;
+            // exit(1);
+        }
+
+        // 监听
+        if (listen(server_sock, MAX_CONNECTIONS) < 0)
+        {
+            perror("Listen failed");
+            continue;
+            // exit(1);
+        }
+        break;
     }
 
     printf("FTP server is listening on port %d...\n", PORT);

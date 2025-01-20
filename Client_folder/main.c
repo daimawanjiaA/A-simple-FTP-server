@@ -5,7 +5,7 @@
 
 int main()
 {
-    
+
     struct sockaddr_in server_addr;
     char buffer[BUFFER_SIZE];
     char command[3][SMALL_BUFFER_SIZE];
@@ -20,16 +20,24 @@ int main()
         perror("Socket creation failed");
         exit(1);
     }
-
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(SERVER_PORT);
-    server_addr.sin_addr.s_addr = inet_addr(SERVER_ADDR);
-
-    // 连接服务器
-    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+    while (1)
     {
-        perror("Connection failed");
-        exit(1);
+        printf("Please enter the listening port: ");
+        scanf("%d", &SERVER_PORT);
+        getchar();
+        server_addr.sin_family = AF_INET;
+        server_addr.sin_port = htons(SERVER_PORT);
+        server_addr.sin_addr.s_addr = inet_addr(SERVER_ADDR);
+
+        // 连接服务器
+        if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+        {
+            perror("Connection failed");
+            continue;
+            // exit(1);
+        }
+
+        break;
     }
 
     // 进行登录

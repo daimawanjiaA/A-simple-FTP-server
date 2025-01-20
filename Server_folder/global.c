@@ -1,5 +1,6 @@
 #include "global.h"
 
+int PORT;               // 端口号
 int fileInfo_size = 96; // 文件描述信息大小
 int maxSizeInBuff = 9;  // 单缓冲区内文件描述最大容量
 int user_counts = 3;    // 用户数量

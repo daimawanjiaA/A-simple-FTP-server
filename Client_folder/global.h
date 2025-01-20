@@ -7,11 +7,13 @@
 #include <fcntl.h>
 
 #define SERVER_ADDR "127.0.0.1" // FTP服务器的IP地址
-#define SERVER_PORT 22011
+
 #define BUFFER_SIZE 1024     // 大缓冲区大小（文件内容）
 #define SIG_BUFFER_SIZE 10   // 信号缓存大小
 #define SMALL_BUFFER_SIZE 50 // 小缓冲区大小（文件名）
 
+
+extern int SERVER_PORT; // 端口号
 extern int sock; // 套接字描述符
 
 // 响应类型

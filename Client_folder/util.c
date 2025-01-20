@@ -37,7 +37,8 @@ int get_command(char command[3][SMALL_BUFFER_SIZE])
 
         // 消除-，GET 三个参数||LS 两个参数
         if (size == 3 || size == 2 && strcmp(command[0], "LS") == 0)
-            strcpy(command[1], command[1] + 1);
+            if (command[1][0] == '-')
+                strcpy(command[1], command[1] + 1);
         return OK;
     }
     else
@@ -62,8 +63,10 @@ int get_filename(const char *input, char *filename)
 }
 
 // 处理 SIGINT 信号的回调函数
-void handle_sigint(int sig) {
-    if (sock != -1) {
+void handle_sigint(int sig)
+{
+    if (sock != -1)
+    {
         // 关闭套接字
         close(sock);
         printf("Socket closed.\n");
